@@ -3,7 +3,10 @@
 	    var is_login = $("body").hasClass("logged-in");
 	    let exbp_ajaxurl = exbp_ajax_object.ajaxurl;
 	    if (! is_login) {
-	    	$('#exbp-download-btn').addClass('xoo-el-login-tgr')
+	    	$('#exbp-download-btn').addClass('lrm-login');
+	    	$('.pld-like-wrap.pld-common-wrap a').attr('class', '');
+	    	$('.pld-like-wrap.pld-common-wrap a').addClass('lrm-login');
+	    	$('.rmp-rating-widget__icons-list li').addClass('lrm-login');
 	    }else {
 			$('#exbp-download-btn').on( 'click', function(event){
 				event.preventDefault();
@@ -37,6 +40,11 @@
 		        });
 			});
 	    }
+
+		if ($.trim($(".pld-like-count-wrap.pld-count-wrap").html())==''){
+			console.log('empty');
+			$(".pld-like-count-wrap.pld-count-wrap").html("0");
+		}
 	});
 
 
