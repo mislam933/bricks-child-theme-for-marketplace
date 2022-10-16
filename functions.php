@@ -142,7 +142,7 @@ if (!is_user_logged_in() ) {
       $user_id = get_current_user_id();
       $post_ids = get_user_meta( $user_id, 'downloaded_templates', true );
       if (empty($post_ids)) {
-        echo "<p style='color: red;'>You do not have any item in your download</p>"
+        echo "<p style='color: red;'>You do not have any item in your download</p>";
         return;
       }
       $query = new WP_Query( array( 
@@ -283,7 +283,7 @@ function exbp_membership_levels_shortcode(){
                     <?php
                   } else {
                     ?>
-                      <a class="<?php echo pmpro_get_element_class( 'pmpro_btn disabled', 'pmpro_btn' ); ?>" href="<?php echo pmpro_url("account")?>"><?php _e('Your&nbsp;Level', 'paid-memberships-pro' );?></a>
+                      <a class="<?php echo pmpro_get_element_class( 'pmpro_btn disabled', 'pmpro_btn' ); ?>" href="<?php echo pmpro_url("account")?>"><?php _e('Active', 'paid-memberships-pro' );?></a>
                     <?php
                   }
                 ?>
@@ -300,3 +300,69 @@ function exbp_membership_levels_shortcode(){
 }
 // register shortcode
 add_shortcode('exbp_membership_levels','exbp_membership_levels_shortcode');
+
+// login page custom design
+
+
+function exbp_login_logo() { ?>
+    <style type="text/css">
+        #login h1 a, .login h1 a {
+            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/images/site-login-logo.png);
+            height:65px;
+            width:320px;
+            background-size: 320px 65px;
+            background-repeat: no-repeat;
+          padding-bottom: 30px;
+        }
+    </style>
+<?php }
+add_action( 'login_enqueue_scripts', 'exbp_login_logo' );
+
+function exbp_login_logo_url() {
+    return home_url();
+}
+add_filter( 'login_headerurl', 'exbp_login_logo_url' );
+
+function exbp_login_logo_url_title() {
+    return 'Bricks Plus';
+}
+add_filter( 'login_headertext', 'exbp_login_logo_url_title' );
+
+function exbp_login_stylesheet() {
+    wp_enqueue_style( 'exbp-custom-login', get_stylesheet_directory_uri() . '/assets/login/style-login.css' );
+    wp_enqueue_script( 'exbp-custom-login', get_stylesheet_directory_uri() . '/assets/login/style-login.js' );
+}
+add_action( 'login_enqueue_scripts', 'exbp_login_stylesheet' );
+
+add_filter( 'login_redirect', function( $url, $query, $user ) {
+  return home_url();
+}, 10, 3 );
+
+add_action('after_setup_theme', 'exbp_remove_admin_bar');
+function exbp_remove_admin_bar() {
+  if (!current_user_can('administrator') && !is_admin()) {
+    show_admin_bar(false);
+  }
+}
+
+add_action('wp_logout','exbp_redirect_after_logout');
+function exbp_redirect_after_logout(){
+  wp_safe_redirect( home_url() );
+  exit;
+}
+
+/**
+ *  Add nonce to logout URL in navigation
+ */
+
+function exbp_add_logout_url_nonce($items){
+  foreach($items as $item){
+    if( $item->url == '/wp-login.php?action=logout'){
+         $item->url = $item->url . '&_wpnonce=' . wp_create_nonce( 'log-out' );
+    }
+  }
+  return $items;
+
+}
+
+add_filter('wp_nav_menu_objects', 'exbp_add_logout_url_nonce');
