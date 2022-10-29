@@ -11,7 +11,7 @@ add_action( 'wp_enqueue_scripts', function() {
   wp_enqueue_script( 'bricks-child-public-js', get_stylesheet_directory_uri() . '/assets/js/public-script.js', ['jquery'], '', true );
   wp_localize_script( 'bricks-child-public-js', 'exbp_ajax_object',
     array( 
-      'ajaxurl' => admin_url( 'admin-ajax.php' ),
+      'ajaxurl'   => admin_url( 'admin-ajax.php' )
     )
   );
 } );
@@ -352,6 +352,13 @@ function exbp_redirect_after_logout(){
   exit;
 }
 
+// redirect after login via modal.
+function exbp_redirect_after_login_from_modal( $user ) {
+  wp_safe_redirect( home_url() );
+  exit;
+}
+add_action( 'xoo_el_login_success', 'exbp_redirect_after_login_from_modal', 10, 1 );
+
 /**
  *  Add nonce to logout URL in navigation
  */
@@ -367,3 +374,18 @@ function exbp_add_logout_url_nonce($items){
 }
 
 add_filter('wp_nav_menu_objects', 'exbp_add_logout_url_nonce');
+
+add_action( 'after_setup_theme', 'exbp_wpas_user_custom_fields' );
+function exbp_wpas_user_custom_fields() {
+  if ( function_exists( 'wpas_add_custom_field' ) ) {
+    wpas_add_custom_field( 'exbp_invoice_id',  array(
+      'title' => __( 'Invoice ID', 'bricks' ),
+      'field_type' => 'text',
+      'required' => true
+
+    ) );
+  }
+}
+
+//add this line to your active theme's functions.php or a custom plugin
+add_filter('pmpro_register_redirect', '__return_false');

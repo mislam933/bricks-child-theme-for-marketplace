@@ -38,7 +38,7 @@
     padding: 0!important;
     transform: translate(0)!important;
     height: calc(100vh - 100px)!important;
-    width: calc(100vw - 100px)!important;
+    width: calc(100vw - 200px)!important;
     max-width: calc(100vw - 60px)!important;
     position: static;
 }

@@ -46,11 +46,11 @@
 		}
 
         if ($("body").hasClass("single-bricks-templates")) {
-            var link = $('#brxe-qrsimo').attr('href');
+            var link = $('#exbp-live-demo').attr('href');
             $(document.body).append('<div class="responsive-checker-wrapper responsive-checker after-open" style="display:none;"><div class="responsive-checker-inner responsive-checker-content live-demo" style="position:absolute;inset:50% 0 auto 50%;border:none;background:#fff;overflow:auto;border-radius:2.5rem;outline:0;padding:0;transform:translate(-50%,-50%);width:95%;max-width:96%;height:90vh"><div class="responsive-checker-preview-head"><h5 class="responsive-checker-preview-product-name">Live Demo</h5><div class="responsive-checker-preview-controller-group"><button class="responsive-checker-preview-control desktop activate"><i class="fa-solid fa-desktop"></i></button><button class="responsive-checker-preview-control tablet"><i class="fa-solid fa-tablet"></i></button><button class="responsive-checker-preview-control phone"><i class="fa-solid fa-mobile"></i></button></div><div class="responsive-checker-preview-live-link"><a class="responsive-checker-preview-live-btn" href="'+ link +'" target="_blank">Go Demo</a></div></div><div class="responsive-checker-preview-body"><iframe src="'+ link +'" frameborder="0" width="100%" height="100%"></iframe></div><div class="responsive-checker_modal__closer"></div></div></div>');
         }
 
-        $(document).on("click","#brxe-qrsimo",function(e){
+        $(document).on("click","#exbp-live-demo",function(e){
             e.preventDefault();
             $(".responsive-checker").fadeIn("slow");
         });
