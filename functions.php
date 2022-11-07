@@ -389,3 +389,14 @@ function exbp_wpas_user_custom_fields() {
 
 //add this line to your active theme's functions.php or a custom plugin
 add_filter('pmpro_register_redirect', '__return_false');
+
+/*
+ * Don't show confirm password or email fields on the checkout page.
+ *
+ * You can add this recipe to your site by creating a custom plugin
+ * or using the Code Snippets plugin available for free in the WordPress repository.
+ * Read this companion article for step-by-step directions on either method.
+ * https://www.paidmembershipspro.com/create-a-plugin-for-pmpro-customizations/ 
+ */
+add_filter( 'pmpro_checkout_confirm_password', '__return_false' );
+add_filter( 'pmpro_checkout_confirm_email', '__return_false' );

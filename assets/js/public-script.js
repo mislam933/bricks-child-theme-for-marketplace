@@ -32,7 +32,7 @@
 		                } else {
 							console.log('error');
 							$(".fas.fa-refresh.fa-spin").remove();
-							$('<p style="color: red;">Something wrong with your membership!</p>').insertAfter('#exbp-download-btn');
+							$('<p style="color: red;">Get premium and download templates!</p>').insertAfter('#exbp-download-btn');
 		                }
 		                // Loading hide
 		               // parent.find('.wbtm-form-builder .wbtm-loading').hide();

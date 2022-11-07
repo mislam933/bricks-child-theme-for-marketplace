@@ -38,11 +38,16 @@
     padding: 0!important;
     transform: translate(0)!important;
     height: calc(100vh - 100px)!important;
-    width: calc(100vw - 200px)!important;
-    max-width: calc(100vw - 60px)!important;
+    width: calc(100vw - 20px)!important;
+    max-width: calc(100vw - 20px)!important;
     position: static;
 }
-
+@media(min-width: 992px){
+    .responsive-checker-content.live-demo {
+        width: calc(100vw - 200px)!important;
+        max-width: calc(100vw - 60px)!important;
+    }
+}
 .responsive-checker-content {
     border-radius: 25px !important;
     background: transparent!important;
@@ -69,6 +74,7 @@
     color: #ffa500;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .responsive-checker-preview-product-name {
@@ -84,8 +90,18 @@
 }
 
 .responsive-checker-content.live-demo.phone .responsive-checker-preview-product-name,
-.responsive-checker-content.live-demo.phone .responsive-checker-preview-live-link{
-	display: none;
+.responsive-checker-content.live-demo.phone .responsive-checker-preview-live-link,
+.responsive-checker-content.live-demo .responsive-checker-preview-product-name,
+.responsive-checker-content.live-demo .responsive-checker-preview-live-link{
+	visibility: hidden;
+    position: absolute;
+}
+@media( min-width: 768px ){
+    .responsive-checker-content.live-demo .responsive-checker-preview-product-name,
+    .responsive-checker-content.live-demo .responsive-checker-preview-live-link{
+        visibility: visible;
+        position: relative;
+    }
 }
 .responsive-checker-preview-live-btn {
     padding: 2px 23px;
@@ -120,10 +136,16 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+@media(max-width: 767px){
+    .responsive-checker-content.live-demo .responsive-checker-preview-controller-group{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
 .responsive-checker-preview-controller-group .responsive-checker-preview-control {
-    height: 50px;
-    width: 50px;
-    min-width: 50px;
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
     border-radius: 5px;
     display: flex;
     justify-content: center;
@@ -133,7 +155,13 @@
     color: #fff;
     margin-right: 10px;
 }
-
+@media( min-width: 768px ){
+    .responsive-checker-preview-controller-group .responsive-checker-preview-control {
+        height: 50px;
+        width: 50px;
+        min-width: 50px; 
+    }
+}
 .responsive-checker-preview-controller-group .responsive-checker-preview-control:last-child{
 	margin-right: 0;
 }
