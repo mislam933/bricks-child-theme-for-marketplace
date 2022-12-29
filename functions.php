@@ -400,3 +400,114 @@ add_filter('pmpro_register_redirect', '__return_false');
  */
 add_filter( 'pmpro_checkout_confirm_password', '__return_false' );
 add_filter( 'pmpro_checkout_confirm_email', '__return_false' );
+
+function exbp_pmpro_level_cost_additional_cost_may_apply($cost, $level)
+{
+  $cost .= ' <span class="small-text additional-cost-text">Additional fees required for international cards and currency conversion.</span>';
+  
+  return $cost;
+}
+add_filter("pmpro_level_cost_text", "exbp_pmpro_level_cost_additional_cost_may_apply", 10, 2);
+
+/**
+* Add the images to your PMPro checkout page.
+*/
+function exbp_pmpro_after_billing_fields_card_image() {
+  echo "<div class='exbp-card-image image-center'><img src='https://bricksplus.io/wp-content/uploads/2022/11/Payment-card.png' alt='credit card logos'/></div>";
+}
+add_action( 'pmpro_checkout_after_billing_fields', 'exbp_pmpro_after_billing_fields_card_image' );
+
+
+/**
+ * Allow expiring members to extend their membership on renewal or level change
+ *
+ * Extend the membership expiration date for a member with remaining days on their current level when they complete checkout for ANY other level that has an expiration date. Always add remaining days to the enddate.
+ *
+ * title: Allow expiring members to extend their membership on renewal or level change
+ * layout: snippet
+ * collection: checkout
+ * category: renewals
+ *
+ * You can add this recipe to your site by creating a custom plugin
+ * or using the Code Snippets plugin available for free in the WordPress repository.
+ * Read this companion article for step-by-step directions on either method.
+ * https://www.paidmembershipspro.com/create-a-plugin-for-pmpro-customizations/
+ */
+
+
+function exbp_pmpro_checkout_level_extend_memberships( $level ) {
+
+  global $pmpro_msg, $pmpro_msgt, $current_user;
+  // does this level expire? are they an existing members with an expiration date?
+  if ( ! empty( $level ) && ! empty( $level->expiration_number ) && pmpro_hasMembershipLevel() && ! empty( $current_user->membership_level->enddate ) ) {
+
+    // get the current enddate of their membership
+    $expiration_date = $current_user->membership_level->enddate;
+
+    // calculate days left
+    $todays_date = time();
+    $time_left   = $expiration_date - $todays_date;
+
+    // time left?
+    if ( $time_left > 0 ) {
+
+      // convert to days and add to the expiration date (assumes expiration was 1 year)
+      $days_left = floor( $time_left / ( 60 * 60 * 24 ) );
+
+      // figure out days based on period
+      if ( $level->expiration_period == 'Day' ) {
+        $total_days = $days_left + $level->expiration_number;
+      } elseif ( $level->expiration_period == 'Week' ) {
+        $total_days = $days_left + $level->expiration_number * 7;
+      } elseif ( $level->expiration_period == 'Month' ) {
+        $total_days = $days_left + $level->expiration_number * 30;
+      } elseif ( $level->expiration_period == 'Year' ) {
+          $total_days = $days_left + $level->expiration_number * 365;
+      }
+
+      // update number and period
+      $level->expiration_number = $total_days;
+      $level->expiration_period = 'Day';
+    }
+  }
+
+  return $level;
+}
+if (isset($_REQUEST['level'])) {
+  $level_id = intval( $_REQUEST['level'] );
+  if(!pmpro_hasMembershipLevel($level_id)){
+    add_filter( 'pmpro_checkout_level', 'exbp_pmpro_checkout_level_extend_memberships' );
+  }
+}
+
+function exbp_subscription_end_text( $expiration_text, $level ){
+    global $pmpro_msg, $pmpro_msgt, $current_user;
+
+    // does this level expire? are they an existing members with an expiration date?
+    if ( $level->expiration_number ) {
+      // figure out days based on period
+      if ( $level->expiration_period == 'Day' ) {
+        $the_date = strtotime("+".$level->expiration_number." Days");
+      } elseif ( $level->expiration_period == 'Week' ) {
+        $the_date = strtotime("+".$level->expiration_number." Weeks");
+      } elseif ( $level->expiration_period == 'Month' ) {
+        $the_date = strtotime("+".$level->expiration_number." Months");
+      } elseif ( $level->expiration_period == 'Year' ) {
+        $the_date = strtotime("+".$level->expiration_number." Years");
+      }
+
+      $the_date = date("d/m/Y", $the_date);
+
+      $expiration_text .=  '<span class="subscription-end-text">';
+      $expiration_text .=  sprintf( __( ' Your subscription will end at %1$s', 'bricks' ), $the_date );
+      $expiration_text .=  '</span>';
+
+    }else{
+      $expiration_text .=  '';
+    }
+
+    return $expiration_text;
+}
+
+add_filter('pmpro_level_expiration_text', 'exbp_subscription_end_text', 10, 2 );
+
