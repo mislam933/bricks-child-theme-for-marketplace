@@ -56,14 +56,15 @@ function exbp_current_user_has_membership(){
     //get the user meta.
     $approval_status = get_user_meta( $user_id, 'pmpro_approval_'.$level_id, true );
 
-    //check the user meta.
-    if( $approval_status['status'] !== 'pending' || $approval_status['status'] !== 'denied' ){
-    //show content here, assume they are approved or don't require approval if the user doesn't have pending or denied. 
+    if ($approval_status) {
+      if ($approval_status['status'] == 'pending' || $approval_status['status'] == 'denied') {
+        //show a restricted message for users.
+        return false;
+      }
+    }elseif($level_id){
       return true;
-    }else{
-    //show a restricted message for users.
-      return false;
     }
+
   }
 }
 
@@ -86,6 +87,8 @@ function exbp_membership_status(){
       }else{
         return "activate";
       }
+    }else{
+      return false;
     }
   }
 }
@@ -95,7 +98,7 @@ function exbp_download_teplate_file(){
   $post_id = ($_POST['post_id']) ? $_POST['post_id'] : '';
   $user_has_membership = exbp_current_user_has_membership();
   $exbp_membership_status = exbp_membership_status();
-  if ($user_has_membership && $exbp_membership_status == 'activate') {
+  if ($user_has_membership && $exbp_membership_status === 'activate') {
     $download_url = get_field('download_link', $post_id);
     if (!empty($download_url)) {
       $total_download = get_field('_exbp_total_download', $post_id);
@@ -510,3 +513,4 @@ function exbp_subscription_end_text( $expiration_text, $level ){
 }
 
 add_filter('pmpro_level_expiration_text', 'exbp_subscription_end_text', 10, 2 );
+
