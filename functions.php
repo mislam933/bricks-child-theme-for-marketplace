@@ -375,7 +375,7 @@ function exbp_add_logout_url_nonce($items){
 
 add_filter('wp_nav_menu_objects', 'exbp_add_logout_url_nonce');
 
-add_action( 'after_setup_theme', 'exbp_wpas_user_custom_fields' );
+// add_action( 'after_setup_theme', 'exbp_wpas_user_custom_fields' );
 function exbp_wpas_user_custom_fields() {
   if ( function_exists( 'wpas_add_custom_field' ) ) {
     wpas_add_custom_field( 'exbp_invoice_id',  array(
@@ -510,4 +510,3 @@ function exbp_subscription_end_text( $expiration_text, $level ){
 }
 
 add_filter('pmpro_level_expiration_text', 'exbp_subscription_end_text', 10, 2 );
-

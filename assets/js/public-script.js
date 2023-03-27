@@ -16,7 +16,7 @@
 		        $.ajax({
 		            url: exbp_ajaxurl,
 		            type: 'POST',
-		            data: { 
+		            data: {
 		            	action: 'exbp_download_teplate_file',
 		            	post_id: post_id
 		            },
@@ -78,26 +78,22 @@
         });
 	});
 
-
 	function download_file(file_link){
-	    $.ajax({
-	        url: file_link,
-	        method: 'GET',
-	        xhrFields: {
-	            responseType: 'blob'
-	        },
-	        success: function (data) {
-	            var a = document.createElement('a');
-	            var url = window.URL.createObjectURL(data);
-	            a.href = url;
-	            a.download = 'myfile.zip';
-	            document.body.append(a);
-	            a.click();
-	            a.remove();
-	            window.URL.revokeObjectURL(url);
-	        }
-	    });
+		window.open(file_link, '_self');
+		// const fileNameWithExtension = file_link.split("/").pop();
+		// fetch(file_link)
+		// 	.then(response => response.blob())
+		// 	.then(blob => {
+		// 		const url = URL.createObjectURL(blob);
+		// 		const a = document.createElement('a');
+		// 		a.style.display = 'none';
+		// 		a.href = url;
+		// 		a.download = fileNameWithExtension;
+		// 		document.body.appendChild(a);
+		// 		a.click();
+		// 		URL.revokeObjectURL(url);
+		// 	})
+		// 	.catch(error => console.error(error));
 	}
-
 
 })(jQuery);
