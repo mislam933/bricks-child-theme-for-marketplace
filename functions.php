@@ -8,12 +8,14 @@ add_action( 'wp_enqueue_scripts', function() {
     wp_enqueue_style( 'bricks-child', get_stylesheet_uri(), ['bricks-frontend'], filemtime( get_stylesheet_directory() . '/style.css' ) );
   }
   wp_enqueue_style('bricks-child-public-css', get_stylesheet_directory_uri() . '/assets/css/public-style.css', '', '', 'all'  );
+  wp_enqueue_style('bcm-template-filtering', get_stylesheet_directory_uri() . '/assets/css/elements/template-filtering.css', '', '', 'all'  );
   wp_enqueue_script( 'bricks-child-public-js', get_stylesheet_directory_uri() . '/assets/js/public-script.js', ['jquery'], '', true );
   wp_localize_script( 'bricks-child-public-js', 'exbp_ajax_object',
     array( 
       'ajaxurl'   => admin_url( 'admin-ajax.php' )
     )
   );
+  wp_enqueue_script( 'bcm-template-filtering', get_stylesheet_directory_uri() . '/assets/js/elements/template-filtering.js', ['jquery'], '', true );
 } );
 
 /**
@@ -22,6 +24,7 @@ add_action( 'wp_enqueue_scripts', function() {
 add_action( 'init', function() {
   $element_files = [
     __DIR__ . '/elements/title.php',
+    __DIR__ . '/elements/template-filtering.php',
   ];
 
   foreach ( $element_files as $file ) {
@@ -33,8 +36,8 @@ add_action( 'init', function() {
  * Add text strings to builder
  */
 add_filter( 'bricks/builder/i18n', function( $i18n ) {
-  // For element category 'custom'
-  $i18n['custom'] = esc_html__( 'Custom', 'bricks' );
+  // For element category 'bricksplus'
+  $i18n['bricksplus'] = esc_html__( 'Bricksplus', 'bricks' );
 
   return $i18n;
 } );
@@ -514,3 +517,9 @@ function exbp_subscription_end_text( $expiration_text, $level ){
 
 add_filter('pmpro_level_expiration_text', 'exbp_subscription_end_text', 10, 2 );
 
+$args = array(
+    'hide_empty' => false, 
+);
+
+// $terms = get_terms('category', $args);
+// var_dump($terms);
