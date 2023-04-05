@@ -17,6 +17,35 @@
     box-shadow: 2px 2px 10px 2px rgba(0,0,0,0.15);
     padding: 30px;
     border-radius: 10px;
+    margin-bottom: 30px;
+}
+.bcm-demo-cat-search-wrapper{
+    display: flex;
+    align-items: center;
+    padding: 0.45em;
+    border: 1px solid;
+    border-color: #dfdfdf;
+    border-radius: 0.35em;
+    transition: border-color .2s cubic-bezier(.21,.6,.35,1);
+    margin-bottom: 30px;  
+}
+.bcm-demo-cat-search-icon {
+    fill: #dfdfdf;
+    flex: 1 0 1em;
+    padding: 0 0.25em;
+    box-sizing: content-box;
+}
+.bcm-demo-cat-search-wrapper .bcm-demo-cat-search {
+    margin: 0;
+    padding: 0 .25em;
+    width: 100%;
+    height: 2em;
+    font-size: 1em;
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    font-family: inherit;
+    font-weight: inherit;
 }
 .flowers-wrap p {
     font-size: 1.6em;
@@ -67,9 +96,58 @@
     transition: transform .3s cubic-bezier(.21,.6,.35,1),box-shadow .3s cubic-bezier(.21,.6,.35,1);
     border-radius: 10px;
 }
-.bcm-template-thumb:hover img {
+/*.bcm-template-thumb:hover img {
     transform: scale(.8);
     box-shadow: 0 20px 25px rgba(0,0,0,.25);
+}*/
+.bcm-template-thumb .bcm-link-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transition: background .2s;
+}
+.bcm-template-thumb:hover .bcm-link-container{
+    background: #00000060;
+}
+.bcm-template-thumb .bcm-link-container a {
+    width: 100%;
+    height: 100%;
+    line-height: 40px;
+    border-radius: 100px 100px 100px 100px;
+    background: #ffffff00;
+    margin: 0px;
+    box-sizing: border-box;
+    border-width: 0px;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    font-size: 0;
+    opacity: 0;
+    text-align: center;
+    -webkit-backface-visibility: hidden;
+    transition: opacity .3s;
+    pointer-events: initial;
+}
+
+.bcm-template-thumb .bcm-link-container a>svg {
+    fill: #fff;
+    width: 40px;
+    height: auto;
+    position: relative;
+    z-index: 2;
+    align-self: center;
+    transition: fill .3s;
+}
+
+.bcm-template-thumb:hover a.project-details{
+    opacity: 1;
 }
 .bcm-template-details-wrappre {
     display: flex;

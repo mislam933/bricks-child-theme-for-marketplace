@@ -8,14 +8,14 @@ add_action( 'wp_enqueue_scripts', function() {
     wp_enqueue_style( 'bricks-child', get_stylesheet_uri(), ['bricks-frontend'], filemtime( get_stylesheet_directory() . '/style.css' ) );
   }
   wp_enqueue_style('bricks-child-public-css', get_stylesheet_directory_uri() . '/assets/css/public-style.css', '', '', 'all'  );
-  wp_enqueue_style('bcm-template-filtering', get_stylesheet_directory_uri() . '/assets/css/elements/template-filtering.css', '', '', 'all'  );
+  wp_enqueue_style('bcm-template-filtering', get_stylesheet_directory_uri() . '/assets/css/elements/template-filtering.css', '', '1.1', 'all'  );
   wp_enqueue_script( 'bricks-child-public-js', get_stylesheet_directory_uri() . '/assets/js/public-script.js', ['jquery'], '', true );
   wp_localize_script( 'bricks-child-public-js', 'exbp_ajax_object',
     array( 
       'ajaxurl'   => admin_url( 'admin-ajax.php' )
     )
   );
-  wp_enqueue_script( 'bcm-template-filtering', get_stylesheet_directory_uri() . '/assets/js/elements/template-filtering.js', ['jquery'], '', true );
+  wp_register_script( 'bcm-template-filtering', get_stylesheet_directory_uri() . '/assets/js/elements/template-filtering.js', ['jquery'], '1.1', true );
 } );
 
 /**
@@ -520,6 +520,3 @@ add_filter('pmpro_level_expiration_text', 'exbp_subscription_end_text', 10, 2 );
 $args = array(
     'hide_empty' => false, 
 );
-
-// $terms = get_terms('category', $args);
-// var_dump($terms);
